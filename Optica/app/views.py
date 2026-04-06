@@ -13,7 +13,7 @@ def optica(request):
     redes = RedSocial.objects.all()
     sedes = Sede.objects.all().order_by('fecha', 'hora')
 
-    return render(request, 'app/optica.html', {
+    return render(request, 'app/Optica.html', {
         'imagenes': imagenes,
         'redes': redes,
         'sedes': sedes
