@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'app/css/login.css' %}">
+</head>
+<body>
+
+<div class="login-container">
+
+    <form method="POST" class="login-box">
+        {% csrf_token %}
+
+        <h2>Iniciar Sesión</h2>
+
+        <div class="input-group">
+            <input type="text" name="username" required>
+            <label>Usuario</label>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" required>
+            <label>Contraseña</label>
+        </div>
+
+        <button type="submit">Entrar</button>
+
+        <p class="extra">
+            ¿No tienes cuenta? <a href="#">Regístrate</a>
+        </p>
+
+    </form>
+
+</div>
+
+</body>
+</html>

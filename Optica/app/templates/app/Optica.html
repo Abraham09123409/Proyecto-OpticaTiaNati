@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Optica</title>
+    <link rel="stylesheet" href="{% static 'app/css/estilos.css' %}">
+</head>
+<body>
+
+<header class="navbar">
+
+    <nav>
+        {% if user.is_authenticated %}
+            <span style="color:white;">Hola, {{ user.username }}</span>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn-login">Login</a>
+        {% endif %}
+
+        {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'editar' %}" class="btn-login">Editar Vista</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn-login">Salir</a>
+        {% endif %}
+    </nav>
+</header>
+
+<section class="hero">
+
+    <!-- IZQUIERDA -->
+    <div class="hero-text">
+        <h1>Operativos oftalmológica</h1>
+
+        <h3>
+            Por la compra de tus lentes, obtén tu consulta oftalmológica completamente gratis <br>
+            El valor de la consulta oftalmológica es de $10.000 <br>
+            contamos con un equipo de expertos en reparación de cristales y cambio de lentes <br>
+        </h3>
+
+        <!-- BOTÓN + MENU DESPLEGABLE -->
+        <div class="dropdown">
+            <button class="dropbtn">Conoce nuestras sedes</button>
+
+            <div class="dropdown-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ubicación</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Hora Término</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sede in sedes %}
+                        <tr>
+                            <td>{{ sede.ubicacion }}</td>
+                            <td>{{ sede.fecha|date:"d/m/Y" }}</td>
+                            <td>{{ sede.hora|time:"H:i" }}</td>
+                            <td>{{ sede.horatermino|time:"H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No hay sedes disponibles</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DERECHA (CARRUSEL) -->
+    <div class="hero-carousel">
+        <div class="carousel">
+
+            <div class="slides">
+                {% for img in imagenes %}
+                    <img src="{{ img.imagen.url }}" class="slide" alt="Imagen carrusel">
+                {% empty %}
+                    <p>No hay imágenes disponibles</p>
+                {% endfor %}
+            </div>
+
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="social-container">
+        {% for red in redes %}
+            <a href="{{ red.link }}" target="_blank">
+                {{ red.nombre }}
+            </a>
+        {% empty %}
+            <span>No hay redes sociales agregadas</span>
+        {% endfor %}
+    </div>
+</footer>
+
+<script src="{% static 'app/js/carrusel.js' %}"></script>
+
+<script>
+const btn = document.querySelector(".dropbtn");
+const menu = document.querySelector(".dropdown-content");
+
+btn.addEventListener("click", () => {
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+});
+</script>
+
+</body>
+</html>

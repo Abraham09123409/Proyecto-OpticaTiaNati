@@ -1,0 +1,16 @@
+h1 {
+    font-weight: bold;
+    color: #1e6fa8;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+button {
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}

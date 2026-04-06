@@ -1,0 +1,96 @@
+/* ===== BASE ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== CONTENEDOR ===== */
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== CAJA LOGIN ===== */
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    width: 300px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* ===== TÍTULO ===== */
+.login-box h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+/* ===== INPUTS ===== */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid white;
+    background: transparent;
+    color: white;
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: white;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+/* animación label */
+.input-group input:focus + label,
+.input-group input:valid + label {
+    top: -10px;
+    font-size: 12px;
+    color: #00bcd4;
+}
+
+/* ===== BOTÓN ===== */
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background: #00bcd4;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0097a7;
+}
+
+/* ===== TEXTO EXTRA ===== */
+.extra {
+    margin-top: 15px;
+    color: white;
+    font-size: 12px;
+}
+
+.extra a {
+    color: #00bcd4;
+    text-decoration: none;
+}
