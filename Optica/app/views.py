@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from .models import ImagenCarrusel, RedSocial, Sede
@@ -19,7 +20,7 @@ def optica(request):
         'sedes': sedes
     })
 
-@user_passes_test(es_admin, login_url='login')
+@login_required(login_url='login')
 def editar(request):
 
     if request.method == 'POST':
@@ -63,7 +64,7 @@ def editar(request):
                     ubicacion=request.POST.get('ubicacion'),
                     fecha=request.POST.get('fecha'),
                     hora=request.POST.get('hora'),
-                    horatermino = request.POST.get('horatermino')
+                    horatermino=request.POST.get('horatermino')
                 )
 
         return redirect('editar')
