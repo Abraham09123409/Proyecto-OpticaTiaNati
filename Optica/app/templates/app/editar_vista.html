@@ -158,7 +158,22 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- REDES --> 
+    <div class="card shadow mb-5"> 
+        <div class="card-body"> <h4 class="mb-3">🌐 Redes Sociales</h4> 
+            <ul class="list-group"> {% for red in redes %} <li class="list-group-item d-flex justify-content-between align-items-center"> 
+                {{ red.nombre }} - {{ red.link }} 
+                <div> 
+                    <button class="btn btn-sm btn-outline-primary" onclick="editarRed('{{ red.id }}','{{ red.nombre }}','{{ red.link }}')"> Editar </button> 
+                    <button onclick="confirmarEliminar('{% url 'eliminar_red' red.id %}')"
+                    class="btn btn-sm btn-outline-danger"> Eliminar </button> 
+                </div> 
+            </li> {% empty %} <li class="list-group-item">No hay redes</li> 
+            {% endfor %}</ul>
+        </div> 
+    </div>
+    
     <!-- SEDES -->
     <div class="card shadow">
         <div class="card-body">
