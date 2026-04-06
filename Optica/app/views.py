@@ -26,24 +26,26 @@ def editar(request):
     if request.method == 'POST':
 
         # ===== IMAGEN =====
-        if request.FILES.get('imagen'):
+        imagen = request.FILES.get('imagen')
+
+        if imagen:
             if request.POST.get('imagen_id'):
-                img = ImagenCarrusel.objects.get(id=request.POST.get('imagen_id'))
-                img.imagen = request.FILES['imagen']
+                img = get_object_or_404(ImagenCarrusel, id=request.POST.get('imagen_id'))
+                img.imagen = imagen
                 img.save()
             else:
-                ImagenCarrusel.objects.create(imagen=request.FILES['imagen'])
+                ImagenCarrusel.objects.create(imagen=imagen)
 
         # ===== RED SOCIAL =====
-        if request.POST.get('nombre_red'):
-            nombre = request.POST.get('nombre_red')
-            link = request.POST.get('link_red')
+        nombre = request.POST.get('nombre_red')
+        link = request.POST.get('link_red')
 
+        if nombre and link:
             if "whatsapp" in nombre.lower() or "ws" in nombre.lower():
                 link = f"https://wa.me/{link}"
 
             if request.POST.get('red_id'):
-                red = RedSocial.objects.get(id=request.POST.get('red_id'))
+                red = get_object_or_404(RedSocial, id=request.POST.get('red_id'))
                 red.nombre = nombre
                 red.link = link
                 red.save()
@@ -51,21 +53,19 @@ def editar(request):
                 RedSocial.objects.create(nombre=nombre, link=link)
 
         # ===== SEDE =====
-        if request.POST.get('ubicacion'):
+        ubicacion = request.POST.get('ubicacion')
+
+        if ubicacion:
             if request.POST.get('sede_id'):
-                sede = Sede.objects.get(id=request.POST.get('sede_id'))
-                sede.ubicacion = request.POST.get('ubicacion')
-                sede.fecha = request.POST.get('fecha')
-                sede.hora = request.POST.get('hora')
-                sede.horatermino = request.POST.get('horatermino')
-                sede.save()
+                sede = get_object_or_404(Sede, id=request.POST.get('sede_id'))
             else:
-                Sede.objects.create(
-                    ubicacion=request.POST.get('ubicacion'),
-                    fecha=request.POST.get('fecha'),
-                    hora=request.POST.get('hora'),
-                    horatermino=request.POST.get('horatermino')
-                )
+                sede = Sede()
+
+            sede.ubicacion = ubicacion
+            sede.fecha = request.POST.get('fecha') or None
+            sede.hora = request.POST.get('hora') or None
+            sede.horatermino = request.POST.get('horatermino') or None
+            sede.save()
 
         return redirect('editar')
 

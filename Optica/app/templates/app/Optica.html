@@ -3,25 +3,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 🔥 CLAVE -->
     <title>Optica</title>
     <link rel="stylesheet" href="{% static 'app/css/estilos.css' %}">
 </head>
 <body>
 
 <header class="navbar">
-
     <nav>
         {% if user.is_authenticated %}
-            <span style="color:white;">Hola, {{ user.username }}</span>
+            <span class="user">Hola, {{ user.username }}</span>
         {% else %}
             <a href="{% url 'login' %}" class="btn-login">Login</a>
         {% endif %}
 
         {% if user.is_authenticated %}
-            <a href="{% url 'editar' %}" class="btn-login">Editar Vista</a>
-        {% endif %}
-
-        {% if user.is_authenticated %}
+            <a href="{% url 'editar' %}" class="btn-login">Editar</a>
             <a href="{% url 'logout' %}" class="btn-login">Salir</a>
         {% endif %}
     </nav>
@@ -29,19 +26,19 @@
 
 <section class="hero">
 
-    <!-- IZQUIERDA -->
+    <!-- TEXTO -->
     <div class="hero-text">
         <h1>Operativos oftalmológica</h1>
 
-        <h3>
-            Por la compra de tus lentes, obtén tu consulta oftalmológica completamente gratis <br>
-            El valor de la consulta oftalmológica es de $10.000 <br>
-            contamos con un equipo de expertos en reparación de cristales y cambio de lentes <br>
-        </h3>
+        <p>
+            Por la compra de tus lentes, obtén tu consulta gratis.<br>
+            Valor normal: $10.000<br>
+            Servicio de reparación y cambio de cristales.
+        </p>
 
-        <!-- BOTÓN + MENU DESPLEGABLE -->
+        <!-- DROPDOWN -->
         <div class="dropdown">
-            <button class="dropbtn">Conoce nuestras sedes</button>
+            <button class="dropbtn">Ver sedes</button>
 
             <div class="dropdown-content">
                 <table>
@@ -50,7 +47,7 @@
                             <th>Ubicación</th>
                             <th>Fecha</th>
                             <th>Hora</th>
-                            <th>Hora Término</th>
+                            <th>Término</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,58 +60,78 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="4">No hay sedes disponibles</td>
+                            <td colspan="4">No hay sedes</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 
-    <!-- DERECHA (CARRUSEL) -->
+    <!-- CARRUSEL -->
     <div class="hero-carousel">
         <div class="carousel">
 
             <div class="slides">
                 {% for img in imagenes %}
-                    <img src="{{ img.imagen.url }}" class="slide" alt="Imagen carrusel">
+                    <img src="{{ img.imagen.url }}" class="slide {% if forloop.first %}active{% endif %}">
                 {% empty %}
-                    <p>No hay imágenes disponibles</p>
+                    <p>No hay imágenes</p>
                 {% endfor %}
             </div>
 
-            <button class="prev">&#10094;</button>
-            <button class="next">&#10095;</button>
+            <button class="prev">❮</button>
+            <button class="next">❯</button>
 
         </div>
     </div>
 
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
     <div class="social-container">
         {% for red in redes %}
-            <a href="{{ red.link }}" target="_blank">
-                {{ red.nombre }}
-            </a>
+            <a href="{{ red.link }}" target="_blank">{{ red.nombre }}</a>
         {% empty %}
-            <span>No hay redes sociales agregadas</span>
+            <span>No hay redes</span>
         {% endfor %}
     </div>
 </footer>
 
-<script src="{% static 'app/js/carrusel.js' %}"></script>
-
 <script>
-const btn = document.querySelector(".dropbtn");
-const menu = document.querySelector(".dropdown-content");
-
-btn.addEventListener("click", () => {
+/* ===== DROPDOWN ===== */
+document.querySelector(".dropbtn").onclick = () => {
+    let menu = document.querySelector(".dropdown-content");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
-});
+};
+
+/* ===== CARRUSEL SIMPLE (FUNCIONA EN CELULAR) ===== */
+let slides = document.querySelectorAll(".slide");
+let index = 0;
+
+function showSlide(i){
+    slides.forEach(s => s.classList.remove("active"));
+    slides[i].classList.add("active");
+}
+
+document.querySelector(".next").onclick = () => {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+};
+
+document.querySelector(".prev").onclick = () => {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+};
+
+/* autoplay opcional */
+setInterval(() => {
+    if(slides.length > 0){
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+}, 4000);
 </script>
 
 </body>
